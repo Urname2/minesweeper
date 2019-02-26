@@ -1,29 +1,44 @@
-function mapMaker(input) {
 
-  var map = [];
+function showBoard(bombs) {
 
-  input.forEach((row) => {
-    for (let index = 0; index < row.length; index++) {
-      const cell = row[index];
-      if (cell == '.') {
-        map.push('0');
+  const board = [];
+
+  bombs.forEach((row, index) => {
+    let rowHints = "";
+    for (let colIndex = 0; colIndex < row.length; colIndex++) {
+      const cell = row[colIndex];
+      if (cell === "*") {
+        rowHints += "*";
       } else {
-        map.push('1');
+        rowHints += "0";
       }
     }
-  })
+    board.push(rowHints);
+  });
 
-  return map;
+  return board;
 }
 
-test('mapMaker creates one row, without bombs', () => {
-  var input = ['.'];
-  const fact = ['0'];
-  expect(mapMaker(input)).toEqual(fact);
+test('map with bombs', () => {
+  const map = ['*'];
+  const expected = ['*'];
+  expect(showBoard(map)).toEqual(expected);
 });
 
-test.skip('mapMaker shows bombs', () => {
-  var input = ['*'];
-  const fact = ['*'];
-  expect(mapMaker(input)).toEqual(fact);
+test('map has correct size', () => {
+  const map = ['***', '***'];
+  const expected = ['***', '***'];
+  expect(showBoard(map)).toEqual(expected);
+});
+
+test('map has shows empty cells', () => {
+  const map = ['...', '...'];
+  const expected = ['000', '000'];
+  expect(showBoard(map)).toEqual(expected);
+});
+
+test.skip('map counts bombs to the right', () => {
+  const map = ['.*'];
+  const expected = ['1*'];
+  expect(showBoard(map)).toEqual(expected);
 });
